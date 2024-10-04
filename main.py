@@ -38,6 +38,7 @@ toolbar.Option_add_middleClick_Function(0, 1, print, "is")
 toolbar.Option_add_middleClick_Function(0, 2, print, "Cool")
 
 toolbox.add_Object(toolbar)
+#Testing
 
 img = Toolbox.PictureBox(200, 50, 'testimg.png')
 img.setScale(0.2)
