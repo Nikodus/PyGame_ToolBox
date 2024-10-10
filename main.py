@@ -3,6 +3,9 @@ from Toolbox import Defines
 import pygame
 import sys
 
+def test(i,j):
+    print(i+j)
+
 pygame.init()
 
 toolbox = Toolbox.Toolbox()
@@ -27,15 +30,15 @@ toolbar.add_Option(0, "World")
 toolbar.add_Option(3, "Hello")
 toolbar.add_Option(3, "Cool")
 toolbar.add_Option(3, "World")
-toolbar.Option_add_leftClick_Function(0, 0, print, "Hello")
-toolbar.Option_add_leftClick_Function(0, 1, print, "Cool")
-toolbar.Option_add_leftClick_Function(0, 2, print, "World")
-toolbar.Option_add_rightClick_Function(0, 0, print, "World")
-toolbar.Option_add_rightClick_Function(0, 1, print, "Cool")
-toolbar.Option_add_rightClick_Function(0, 2, print, "Hello")
-toolbar.Option_add_middleClick_Function(0, 0, print, "Middle Click")
-toolbar.Option_add_middleClick_Function(0, 1, print, "is")
-toolbar.Option_add_middleClick_Function(0, 2, print, "Cool")
+toolbar.Option_set_leftClick_Function(0, 0, print, "Hello")
+toolbar.Option_set_leftClick_Function(0, 1, print, "Cool")
+toolbar.Option_set_leftClick_Function(0, 2, print, "World")
+toolbar.Option_set_rightClick_Function(0, 0, print, "World")
+toolbar.Option_set_rightClick_Function(0, 1, print, "Cool")
+toolbar.Option_set_rightClick_Function(0, 2, print, "Hello")
+toolbar.Option_set_middleClick_Function(0, 0, print, "Middle Click")
+toolbar.Option_set_middleClick_Function(0, 1, print, "is")
+toolbar.Option_set_middleClick_Function(0, 2, print, "Cool")
 
 toolbox.add_Object(toolbar)
 
