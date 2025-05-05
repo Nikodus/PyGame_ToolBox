@@ -3,26 +3,6 @@ from defines import *
 
 
 class Object:
-
-    def __draw__(self, window):
-        pass
-
-    def __left_click_events__(self):
-        pass
-
-    def __right_click_events__(self):
-        pass
-
-    def __middle_click_events__(self):
-        pass
-
-
-class Text_button(Object):
-    __Rectangle = None
-    __Button_color = None
-    __Text = None
-    __Text_color = None
-    __Font = None
     __Left_onclick_fun = None
     __Left_onclick_fun_param = None
     __Right_onclick_fun = None
@@ -36,67 +16,58 @@ class Text_button(Object):
     __Middle_offclick_fun = None
     __Middle_offclick_fun_param = None
 
-    # TODO auf Pygame rect umbauen
-
-    def __init__(self, rect:pygame.rect, text: str = "Button",
-                 font: pygame.font = Defines.medium_text_font, button_color: pygame.color = Defines.gray,
-                 text_color: pygame.color = Defines.white):
-        self.__Rectangle = rect
-        self.__Text = text
-        self.__Font = font
-        self.__Button_color = button_color
-        self.__Text_color = text_color
-
-    def __draw__(self, window: pygame.display):
-        pygame.draw.rect(window, self.__Button_color, self.__Rectangle)
-        button_text = self.__Font.render(self.__Text, True, self.__Text_color)
-        text_rect = button_text.get_rect(center=self.__Rectangle.center)
-        window.blit(button_text, text_rect)
+    def __draw__(self, window):
+        pass
 
     def __left_click_events__(self):
+        pass
+
+    def __left_click_events_rect__(self,rect:pygame.rect):
         result = False
         try:
             pos = pygame.mouse.get_pos()
-            if pos[0] > self.__Rectangle.x and pos[0] < (self.__Rectangle.x + self.__Rectangle.width):
-                if pos[1] > self.__Rectangle.y and pos[1] < (self.__Rectangle.y + self.__Rectangle.height):
-                    self.__Left_onclick_fun(*self.__Left_onclick_fun_param)
+            if pos[0] > rect.x and pos[0] < (rect.x + rect.width):
+                if pos[1] > rect.y and pos[1] < (rect.y + rect.height):
+                    self.leftonclick()
                     result = True
             else:
-                self.__Left_offclick_fun(*self.__Left_offclick_fun_param)
+                self.leftoffclick()
         except:
             None
         return result
 
     def __right_click_events__(self):
+        pass
+    def __right_click_events_rect__(self,rect:pygame.rect):
         result = False
         try:
             pos = pygame.mouse.get_pos()
-            if pos[0] > self.__Rectangle.x and pos[0] < (self.__Rectangle.x + self.__Rectangle.width):
-                if pos[1] > self.__Rectangle.y and pos[1] < (self.__Rectangle.y + self.__Rectangle.height):
-                    self.__Right_onclick_fun(*self.__Right_onclick_fun_param)
+            if pos[0] > rect.x and pos[0] < (rect.x + rect.width):
+                if pos[1] > rect.y and pos[1] < (rect.y + rect.height):
+                    self.leftonclick()
                     result = True
             else:
-                self.__Right_offclick_fun(*self.__Right_offclick_fun_param)
+                self.leftoffclick()
         except:
             None
         return result
 
     def __middle_click_events__(self):
+        pass
+
+    def __middle_click_events_rect__(self,rect:pygame.rect):
         result = False
         try:
             pos = pygame.mouse.get_pos()
-            if pos[0] > self.__Rectangle.x and pos[0] < (self.__Rectangle.x + self.__Rectangle.width):
-                if pos[1] > self.__Rectangle.y and pos[1] < (self.__Rectangle.y + self.__Rectangle.height):
-                    self.__Middle_onclick_fun(*self.__Middle_onclick_fun_param)
+            if pos[0] > rect.x and pos[0] < (rect.x + rect.width):
+                if pos[1] > rect.y and pos[1] < (rect.y + rect.height):
+                    self.leftonclick()
                     result = True
             else:
-                self.__Middle_offclick_fun(*self.__Middle_offclick_fun_param)
+                self.leftoffclick()
         except:
             None
         return result
-
-    def getRectangle(self):
-        return self.__Rectangle
 
     def setLeftonClickFunction(self, function, *parameter):
         self.__Left_onclick_fun = function
@@ -121,6 +92,57 @@ class Text_button(Object):
     def setMiddleoffClickFunction(self, function, *parameter):
         self.__Middle_offclick_fun = function
         self.__Middle_offclick_fun_param = parameter
+
+    def leftonclick(self):
+        return self.__Left_onclick_fun(*self.__Left_onclick_fun_param)
+    def leftoffclick(self):
+        return self.__Left_offclick_fun(*self.__Left_offclick_fun_param)
+    def rightonclick(self):
+        return self.__Right_onclick_fun(*self.__Right_onclick_fun_param)
+    def rightoffclick(self):
+        return self.__Right_offclick_fun(*self.__Right_offclick_fun_param)
+    def middleonclick(self):
+        return self.__Middle_onclick_fun(*self.__Middle_onclick_fun_param)
+    def middleoffclick(self):
+        return self.__Middle_offclick_fun(*self.__Middle_offclick_fun_param)
+
+
+class Text_button(Object):
+    __Rectangle = None
+    __Button_color = None
+    __Text = None
+    __Text_color = None
+    __Font = None
+
+
+    # TODO auf Pygame rect umbauen
+
+    def __init__(self, rect:pygame.rect, text: str = "Button",
+                 font: pygame.font = Defines.medium_text_font, button_color: pygame.color = Defines.gray,
+                 text_color: pygame.color = Defines.white):
+        self.__Rectangle = rect
+        self.__Text = text
+        self.__Font = font
+        self.__Button_color = button_color
+        self.__Text_color = text_color
+
+    def __draw__(self, window: pygame.display):
+        pygame.draw.rect(window, self.__Button_color, self.__Rectangle)
+        button_text = self.__Font.render(self.__Text, True, self.__Text_color)
+        text_rect = button_text.get_rect(center=self.__Rectangle.center)
+        window.blit(button_text, text_rect)
+
+    def __left_click_events__(self):
+        return super().__left_click_events_rect__(self.__Rectangle)
+
+    def __right_click_events__(self):
+        return super().__right_click_events_rect__(self.__Rectangle)
+
+    def __middle_click_events__(self):
+        return super().__middle_click_events_rect__(self.__Rectangle)
+
+    def getRectangle(self):
+        return self.__Rectangle
 
     def setButtonColor(self, color: pygame.color):
         self.__Button_color = color
@@ -302,7 +324,22 @@ class Toolbar(Object):
         option_index += 2
         self.__Button_list[category_index][option_index].setMiddleonClickFunction(function, *parameter)
 
-    # TODO Unter Option Funktion hinzufügen
+    # TODO Option Object für Toolbox
+class Option(Object):
+    def __init__(self):
+        super()
+
+    def __draw__(self, window):
+        None
+
+    def __left_click_events__(self):
+        None
+
+    def __right_click_events__(self):
+        None
+
+    def __middle_click_events__(self):
+        None
 
 
 class PictureBox(Object):
@@ -310,18 +347,6 @@ class PictureBox(Object):
     __Picture_rect = None
     __width = None
     __height = None
-    __Left_onclick_fun = None
-    __Left_onclick_fun_param = None
-    __Right_onclick_fun = None
-    __Right_onclick_fun_param = None
-    __Middle_onclick_fun = None
-    __Middle_onclick_fun_param = None
-    __Left_offclick_fun = None
-    __Left_offclick_fun_param = None
-    __Right_offclick_fun = None
-    __Right_offclick_fun_param = None
-    __Middle_offclick_fun = None
-    __Middle_offclick_fun_param = None
 
     def __init__(self, x: int, y: int, path: str, width: int = None, height: int = None):
         try:
@@ -359,70 +384,13 @@ class PictureBox(Object):
         window.blit(self.__Picture, self.__Picture_rect)
 
     def __left_click_events__(self):
-        result = False
-        try:
-            pos = pygame.mouse.get_pos()
-            if pos[0] > self.__Picture_rect.x and pos[0] < (self.__Picture_rect.x + self.__Picture_rect.width):
-                if pos[1] > self.__Picture_rect.y and pos[1] < (self.__Picture_rect.y + self.__Picture_rect.height):
-                    self.__Left_onclick_fun(*self.__Left_onclick_fun_param)
-                    result = True
-            else:
-                self.__Left_offclick_fun(*self.__Left_offclick_fun_param)
-        except:
-            None
-        return result
+        return super().__left_click_events_rect__(self.__Picture_rect)
 
     def __right_click_events__(self):
-        result = False
-        try:
-            pos = pygame.mouse.get_pos()
-            if pos[0] > self.__Picture_rect.x and pos[0] < (self.__Picture_rect.x + self.__Picture_rect.width):
-                if pos[1] > self.__Picture_rect.y and pos[1] < (self.__Picture_rect.y + self.__Picture_rect.height):
-                    self.__Right_onclick_fun(*self.__Right_onclick_fun_param)
-                    result = True
-            else:
-                self.__Right_offclick_fun(*self.__Right_offclick_fun_param)
-        except:
-            None
-        return result
+        return super().__right_click_events_rect__(self.__Picture_rect)
 
     def __middle_click_events__(self):
-        result = False
-        try:
-            pos = pygame.mouse.get_pos()
-            if pos[0] > self.__Picture_rect.x and pos[0] < (self.__Picture_rect.x + self.__Picture_rect.width):
-                if pos[1] > self.__Picture_rect.y and pos[1] < (self.__Picture_rect.y + self.__Picture_rect.height):
-                    self.__Middle_onclick_fun(*self.__Middle_onclick_fun_param)
-                    result = True
-            else:
-                self.__Middle_offclick_fun(*self.__Middle_offclick_fun_param)
-        except:
-            None
-        return result
-
-    def setLeftonClickFunction(self, function, *parameter):
-        self.__Left_onclick_fun = function
-        self.__Left_onclick_fun_param = parameter
-
-    def setLeftoffClickFunction(self, function, *parameter):
-        self.__Left_offclick_fun = function
-        self.__Left_offclick_fun_param = parameter
-
-    def setRightonClickFunction(self, function, *parameter):
-        self.__Right_onclick_fun = function
-        self.__Right_onclick_fun_param = parameter
-
-    def setRightoffClickFunction(self, function, *parameter):
-        self.__Right_offclick_fun = function
-        self.__Right_offclick_fun_param = parameter
-
-    def setMiddleonClickFunction(self, function, *parameter):
-        self.__Middle_onclick_fun = function
-        self.__Middle_onclick_fun_param = parameter
-
-    def setMiddleoffClickFunction(self, function, *parameter):
-        self.__Middle_offclick_fun = function
-        self.__Middle_offclick_fun_param = parameter
+        return super().__middle_click_events_rect__(self.__Picture_rect)
 
 
 class Label(Object):
@@ -430,18 +398,7 @@ class Label(Object):
     __Text = None
     __Text_font = None
     __Text_color = None
-    __Left_onclick_fun = None
-    __Left_onclick_fun_param = None
-    __Right_onclick_fun = None
-    __Right_onclick_fun_param = None
-    __Middle_onclick_fun = None
-    __Middle_onclick_fun_param = None
-    __Left_offclick_fun = None
-    __Left_offclick_fun_param = None
-    __Right_offclick_fun = None
-    __Right_offclick_fun_param = None
-    __Middle_offclick_fun = None
-    __Middle_offclick_fun_param = None
+
 
     def __init__(self, x: int, y: int, Text_font: pygame.font, Text: str = "Label",
                  Text_color: pygame.color = Defines.white):
@@ -456,86 +413,16 @@ class Label(Object):
         window.blit(button_text, text_rect)
 
     def __left_click_events__(self):
-        result = False
-        try:
-            pos = pygame.mouse.get_pos()
-            if pos[0] > self.__Label_rect.x and pos[0] < (self.__Label_rect.x + self.__Label_rect.width):
-                if pos[1] > self.__Label_rect.y and pos[1] < (self.__Label_rect.y + self.__Label_rect.height):
-                    self.__Left_onclick_fun(*self.__Left_onclick_fun_param)
-                    result = True
-            else:
-                self.__Left_offclick_fun(*self.__Left_offclick_fun_param)
-        except:
-            None
-        return result
+        return super().__left_click_events_rect__(self.__Label_rect)
 
     def __right_click_events__(self):
-        result = False
-        try:
-            pos = pygame.mouse.get_pos()
-            if pos[0] > self.__Label_rect.x and pos[0] < (self.__Label_rect.x + self.__Label_rect.width):
-                if pos[1] > self.__Label_rect.y and pos[1] < (self.__Label_rect.y + self.__Label_rect.height):
-                    self.__Right_onclick_fun(*self.__Right_onclick_fun_param)
-                    result = True
-            else:
-                self.__Right_offclick_fun(*self.__Right_offclick_fun_param)
-        except:
-            None
-        return result
+        return super().__right_click_events_rect__(self.__Label_rect)
 
     def __middle_click_events__(self):
-        result = False
-        try:
-            pos = pygame.mouse.get_pos()
-            if pos[0] > self.__Label_rect.x and pos[0] < (self.__Label_rect.x + self.__Label_rect.width):
-                if pos[1] > self.__Label_rect.y and pos[1] < (self.__Label_rect.y + self.__Label_rect.height):
-                    self.__Middle_onclick_fun(*self.__Middle_onclick_fun_param)
-                    result = True
-            else:
-                self.__Middle_offclick_fun(*self.__Middle_offclick_fun_param)
-        except:
-            None
-        return result
-
-    def setLeftonClickFunction(self, function, *parameter):
-        self.__Left_onclick_fun = function
-        self.__Left_onclick_fun_param = parameter
-
-    def setLeftoffClickFunction(self, function, *parameter):
-        self.__Left_offclick_fun = function
-        self.__Left_offclick_fun_param = parameter
-
-    def setRightonClickFunction(self, function, *parameter):
-        self.__Right_onclick_fun = function
-        self.__Right_onclick_fun_param = parameter
-
-    def setRightoffClickFunction(self, function, *parameter):
-        self.__Right_offclick_fun = function
-        self.__Right_offclick_fun_param = parameter
-
-    def setMiddleonClickFunction(self, function, *parameter):
-        self.__Middle_onclick_fun = function
-        self.__Middle_onclick_fun_param = parameter
-
-    def setMiddleoffClickFunction(self, function, *parameter):
-        self.__Middle_offclick_fun = function
-        self.__Middle_offclick_fun_param = parameter
-
+        return super().__middle_click_events_rect__(self.__Label_rect)
 
 class Invisible_Button(Object):
     __Rectangle = None
-    __Left_onclick_fun = None
-    __Left_onclick_fun_param = None
-    __Right_onclick_fun = None
-    __Right_onclick_fun_param = None
-    __Middle_onclick_fun = None
-    __Middle_onclick_fun_param = None
-    __Left_offclick_fun = None
-    __Left_offclick_fun_param = None
-    __Right_offclick_fun = None
-    __Right_offclick_fun_param = None
-    __Middle_offclick_fun = None
-    __Middle_offclick_fun_param = None
     __showButton = 0
 
     def __init__(self, x: int, y: int, width: int, height: int):
@@ -549,75 +436,37 @@ class Invisible_Button(Object):
             window.blit(button_text, text_rect)
 
     def __left_click_events__(self):
-        result = False
-        try:
-            pos = pygame.mouse.get_pos()
-            if pos[0] > self.__Rectangle.x and pos[0] < (self.__Rectangle.x + self.__Rectangle.width):
-                if pos[1] > self.__Rectangle.y and pos[1] < (self.__Rectangle.y + self.__Rectangle.height):
-                    self.__Left_onclick_fun(*self.__Left_onclick_fun_param)
-                    result = True
-            else:
-                self.__Left_offclick_fun(*self.__Left_offclick_fun_param)
-        except:
-            None
-        return result
+        return super().__left_click_events_rect__(self.__Rectangle)
 
     def __right_click_events__(self):
-        result = False
-        try:
-            pos = pygame.mouse.get_pos()
-            if pos[0] > self.__Rectangle.x and pos[0] < (self.__Rectangle.x + self.__Rectangle.width):
-                if pos[1] > self.__Rectangle.y and pos[1] < (self.__Rectangle.y + self.__Rectangle.height):
-                    self.__Right_onclick_fun(*self.__Right_onclick_fun_param)
-                    result = True
-            else:
-                self.__Right_offclick_fun(*self.__Right_offclick_fun_param)
-        except:
-            None
-        return result
+        return super().__right_click_events_rect__(self.__Rectangle)
 
     def __middle_click_events__(self):
-        result = False
-        try:
-            pos = pygame.mouse.get_pos()
-            if pos[0] > self.__Rectangle.x and pos[0] < (self.__Rectangle.x + self.__Rectangle.width):
-                if pos[1] > self.__Rectangle.y and pos[1] < (self.__Rectangle.y + self.__Rectangle.height):
-                    self.__Middle_onclick_fun(*self.__Middle_onclick_fun_param)
-                    result = True
-            else:
-                self.__Middle_offclick_fun(*self.__Middle_offclick_fun_param)
-        except:
-            None
-        return result
-
-    def setLeftonClickFunction(self, function, *parameter):
-        self.__Left_onclick_fun = function
-        self.__Left_onclick_fun_param = parameter
-
-    def setLeftoffClickFunction(self, function, *parameter):
-        self.__Left_offclick_fun = function
-        self.__Left_offclick_fun_param = parameter
-
-    def setRightonClickFunction(self, function, *parameter):
-        self.__Right_onclick_fun = function
-        self.__Right_onclick_fun_param = parameter
-
-    def setRightoffClickFunction(self, function, *parameter):
-        self.__Right_offclick_fun = function
-        self.__Right_offclick_fun_param = parameter
-
-    def setMiddleonClickFunction(self, function, *parameter):
-        self.__Middle_onclick_fun = function
-        self.__Middle_onclick_fun_param = parameter
-
-    def setMiddleoffClickFunction(self, function, *parameter):
-        self.__Middle_offclick_fun = function
-        self.__Middle_offclick_fun_param = parameter
+        return super().__middle_click_events_rect__(self.__Rectangle)
 
     def showButton(self):
         self.__showButton = 1
 
-# TODO TextBox hinzufügen
+# TODO TextBox fertigstellen
+class TextBox(Object):
+    __Rectangle = None
+    __Font = None
 
 
+    def __init__(self, x: int, y: int, width: int, height: int,font: pygame.font = Defines.medium_text_font,
+                 text_color: pygame.color = Defines.white):
+        self.__Rectangle = pygame.rect
+
+
+    def __draw__(self, window):
+        super().__draw__(window)
+
+    def __left_click_events__(self):
+        return super().__left_click_events_rect__(self.__Rectangle)
+
+    def __right_click_events__(self):
+        return super().__right_click_events_rect__(self.__Rectangle)
+
+    def __middle_click_events__(self):
+        return super().__middle_click_events_rect__(self.__Rectangle)
 # TODO weitere Objekte hinzufügen
