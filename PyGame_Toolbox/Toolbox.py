@@ -1,4 +1,6 @@
-from Object import *
+import pygame
+
+from PyGame_Toolbox.Objects import *
 
 
 class Toolbox:
