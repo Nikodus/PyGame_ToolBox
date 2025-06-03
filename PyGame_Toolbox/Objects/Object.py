@@ -13,9 +13,16 @@ class Object:
     __Right_offclick_fun_param = None
     __Middle_offclick_fun = None
     __Middle_offclick_fun_param = None
+    __visible = True
+    __disable = False
 
-    def __draw__(self, window):
+    def __draw__(self, window: pygame.display):
         pass
+
+
+    def __draw_visible__(self,window: pygame.display):
+        if self.__visible:
+            self.__draw__(window)
 
     def __left_click_events__(self):
         pass
@@ -92,16 +99,40 @@ class Object:
         self.__Middle_offclick_fun_param = parameter
 
     def leftonclick(self):
-        return self.__Left_onclick_fun(*self.__Left_onclick_fun_param)
+        if not self.__disable:
+            return self.__Left_onclick_fun(*self.__Left_onclick_fun_param)
+        return None
     def leftoffclick(self):
-        return self.__Left_offclick_fun(*self.__Left_offclick_fun_param)
+        if not self.__disable:
+            return self.__Left_offclick_fun(*self.__Left_offclick_fun_param)
+        return None
     def rightonclick(self):
-        return self.__Right_onclick_fun(*self.__Right_onclick_fun_param)
+        if not self.__disable:
+            return self.__Right_onclick_fun(*self.__Right_onclick_fun_param)
+        return None
     def rightoffclick(self):
-        return self.__Right_offclick_fun(*self.__Right_offclick_fun_param)
+        if not self.__disable:
+            return self.__Right_offclick_fun(*self.__Right_offclick_fun_param)
+        return None
     def middleonclick(self):
-        return self.__Middle_onclick_fun(*self.__Middle_onclick_fun_param)
+        if not self.__disable:
+            return self.__Middle_onclick_fun(*self.__Middle_onclick_fun_param)
+        return None
     def middleoffclick(self):
-        return self.__Middle_offclick_fun(*self.__Middle_offclick_fun_param)
+        if not self.__disable:
+            return self.__Middle_offclick_fun(*self.__Middle_offclick_fun_param)
+        return None
+
+    def setVisibility(self,newValue:bool):
+        self.__visible = newValue
+
+    def getVisibility(self):
+        return self.__visible
+
+    def setDisable(self,newValue:bool):
+        self.__disable = newValue
+
+    def getDisable(self):
+        return self.__disable
 
 # TODO weitere Objekte hinzufügen

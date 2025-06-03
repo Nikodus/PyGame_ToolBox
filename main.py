@@ -2,6 +2,10 @@ import PyGame_Toolbox as tb
 import pygame
 import sys
 
+from PyGame_Toolbox import fonts, specfonts
+from PyGame_Toolbox.Objects import TextBox
+
+
 def test(i,j):
     print(i+j)
 
@@ -42,27 +46,32 @@ toolbar.Option_set_middleClick_Function(0, 2, print, "Cool")
 toolbox.add_Object(toolbar)
 
 
-img = tb.PictureBox(200, 50, 'testimg.png')
-img.setScale(0.2)
-img.setLeftonClickFunction(print, "Its Me")
-toolbox.add_Object(img)
+#img = tb.PictureBox(200, 50, 'testimg.png')
+#img.setScale(0.2)
+#img.setLeftonClickFunction(print, "Its Me")
+#toolbox.add_Object(img)
 
+#img.setVisibility(False)
+#img.setDisable(True)
 
 text = tb.Label(50, 50, tb.fonts.medium_text_font, "Hello World")
 text.setLeftonClickFunction(print,"dlrow olleH")
 toolbox.add_Object(text)
 
-invisBtn = tb.Invisible_Button(50, 100, 100, 50)
+invisBtn = tb.Text_button(pygame.Rect(50, 100, 100, 50))
 
+invisBtn.setVisibility(False)
 invisBtn.setLeftonClickFunction(print,"You found it")
 toolbox.add_Object(invisBtn)
+
+textbox = TextBox(100,100,200,50,text_mode=tb.Modes.Any,max_chars=10)
 
 
 obj_list = [tb.Text_button(pygame.Rect(110, 400, 100, 30)), tb.Text_button(pygame.Rect(220, 400, 100, 30)),
             tb.Text_button(pygame.Rect(330, 400, 100, 30)), tb.Text_button(pygame.Rect(440, 400, 100, 30))]
 
 toolbox.add_Object_List(obj_list)
-
+toolbox.add_Object(textbox)
 while True:
     window.fill(tb.colors.background)
 
@@ -72,6 +81,9 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+
+        if event.type == pygame.KEYDOWN:
+            toolbox.key_down_events(event)
         if event.type == pygame.MOUSEBUTTONDOWN:
             left, middle, right = pygame.mouse.get_pressed()
             if left:
